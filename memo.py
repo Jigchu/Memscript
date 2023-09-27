@@ -1,5 +1,4 @@
 import os
-import math
 
 def startup():
 	cwd = os.getcwd()
