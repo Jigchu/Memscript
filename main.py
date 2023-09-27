@@ -1,0 +1,3 @@
+from memscript import *
+
+main()
