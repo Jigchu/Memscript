@@ -5,9 +5,9 @@ def binary(prompt: str):
 	while result == None:
 		response = input(prompt)
 		response = response.lower()
-		if response[0] == "y":
+		if "y" in response:
 			result = True
-		elif response[0] == "n":
+		elif "n" in response:
 			result = False
 	
 	return result

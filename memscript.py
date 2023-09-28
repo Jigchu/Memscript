@@ -42,15 +42,43 @@ def memorise():
 	memscripts = memscript("memscripts", "dir", cwd)
 	repeat = True
 	
-	script = choose(memscripts)
+	script = _choose(memscripts)
 	
 	while repeat:
-		test(script)
+		_test(script)
 		repeat = qna.binary("Do you want to repeat the script?\n")
 
 	return 0
+
+def view():
+	cwd = os.getcwd()
+	memscripts = memscript("memscripts", "dir", cwd)
+	repeat = True
 	
-def choose(memscripts: memscript):
+	while repeat:
+		script = _choose(memscripts)
+		_display(script)
+		repeat = qna.binary("Would you like to look at another script?\n")
+	
+def _display(script: memscript):
+	if script.type == "dir":
+		for child in script.children:
+			__display(child)
+		return
+	
+	__display(child)
+	
+	return
+
+def __display(script: memscript):
+	print(f"Currently viewing {script.name}")
+	for line in script.script:
+		input(line)
+	print("\n")
+	
+	return
+
+def _choose(memscripts: memscript):
 	scripts = ["All"]
 	num_script = len(memscripts.children) + 1
 	chosen_script = num_script + 1
@@ -60,7 +88,7 @@ def choose(memscripts: memscript):
 	for child in memscripts.children:
 		scripts.append(child.name)
 	
-	chosen_script = qna.mcq("Which script would you like to memorise", scripts)
+	chosen_script = qna.mcq("Which script would you like to choose", scripts)
 
 	chosen_script -= 1
 
@@ -71,20 +99,19 @@ def choose(memscripts: memscript):
 
 	return script
 
-
-def test(script: memscript):
+def _test(script: memscript):
 	if script.type == "dir":
-		print(f"Currently set of scripts under {script.name}")
+		print(f"Currently memorising set of scripts under {script.name}")
 		for child in script.children:
-			test(child)
+			_test(child)
 		return
 	
-	results = _test(script)
+	results = __test(script)
 	_evaluate(results, script)
 
 	return
 
-def _test(script: memscript):
+def __test(script: memscript):
 	incorrect = []
 
 	print(f"Currently testing {script.name}")
@@ -94,6 +121,7 @@ def _test(script: memscript):
 		while not correct:
 			input_buffer = input()
 			if input_buffer.lower() == "q":
+				print("\n")
 				return []
 			if input_buffer == line:
 				correct = True
@@ -101,6 +129,8 @@ def _test(script: memscript):
 			print(f"Incorrect Response: {input_buffer}")
 			print(f"Correct Response: {line}")
 			incorrect.append(line)
+
+	print("\n")
 
 	return incorrect
 
