@@ -10,6 +10,7 @@ def main():
 
 	if task == 2:
 		extra.clear_eval()
+		return 0
 
 	memscript.memorise()
 
