@@ -82,7 +82,6 @@ def _choose(memscripts: memscript):
 	scripts = ["All"]
 	num_script = len(memscripts.children) + 1
 	chosen_script = num_script + 1
-	deeper = False
 	script = None
 
 	for child in memscripts.children:
@@ -147,5 +146,7 @@ def _evaluate(results, script: memscript):
 
 	for line in results:
 		eval_file.write(line + "\n")
+	
+	eval_file.write("\n")
 
 	eval_file.close()
