@@ -1,5 +1,6 @@
 import os
 import time
+import qna
 
 class memscript:
 	def __init__(self, name: str, type: str, parent: str):
@@ -36,32 +37,52 @@ class memscript:
 				script.append(line)
 		return script
 
-def main():
+def memorise():
 	cwd = os.getcwd()
 	memscripts = memscript("memscripts", "dir", cwd)
-	num_of_script = len(memscripts.children)
-	chosen_script = num_of_script + 1
-
-	while chosen_script > num_of_script:
-		print("Which scipt would you like to memorise first?")
-		print(*[x.name for x in memscripts.children])
-		chosen_script = int(input(f"Choose from 1~{len(memscripts.children)}: "))
+	repeat = True
 	
-	script = memscripts.children[chosen_script-1]
-	test(script)
+	script = choose(memscripts)
+	
+	while repeat:
+		test(script)
+		repeat = qna.binary("Do you want to repeat the script?\n")
 
 	return 0
 	
+def choose(memscripts: memscript):
+	scripts = ["All"]
+	num_script = len(memscripts.children) + 1
+	chosen_script = num_script + 1
+	deeper = False
+	script = None
+
+	for child in memscripts.children:
+		scripts.append(child.name)
+	
+	chosen_script = qna.mcq("Which script would you like to memorise", scripts)
+
+	chosen_script -= 1
+
+	if chosen_script == 0:
+		script = memscripts
+	else:
+		script: memscript = memscripts.children[chosen_script - 1]
+
+	return script
+
 
 def test(script: memscript):
 	if script.type == "dir":
+		print(f"Currently set of scripts under {script.name}")
 		for child in script.children:
 			test(child)
+		return
 	
 	results = _test(script)
 	_evaluate(results, script)
 
-	return []
+	return
 
 def _test(script: memscript):
 	incorrect = []
@@ -72,6 +93,8 @@ def _test(script: memscript):
 		correct = False
 		while not correct:
 			input_buffer = input()
+			if input_buffer.lower() == "q":
+				return []
 			if input_buffer == line:
 				correct = True
 				continue
@@ -87,14 +110,12 @@ def _evaluate(results, script: memscript):
 	except FileExistsError:
 		eval_file = open("eval.txt", "a")
 
-	eval_file.write(f"{script.name}")
-	eval_file.write(f" {time.asctime()}\n")
+	eval_file.write(f"{script.name} {time.asctime()}\n")
 
 	if results == []:
 		eval_file.write("No mistakes\n")
 
 	for line in results:
-		eval_file.write(line)
-		eval_file.write("\n")
+		eval_file.write(line + "\n")
 
 	eval_file.close()
