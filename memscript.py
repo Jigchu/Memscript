@@ -1,4 +1,5 @@
 import os
+import time
 
 class memscript:
 	def __init__(self, name: str, type: str, parent: str):
@@ -11,42 +12,55 @@ class memscript:
 		self.script = self.__load()
 
 	def __get_children(self):
-		start_dir = self.parent + f"\\{self.name}"
+		start_dir = os.path.join(self.parent, self.name)
 		traversal = os.walk(start_dir)
 		children = []
-		
+
 		for root, dirs, files in traversal:
 			for dir in dirs:
 				children.append(memscript(dir, "dir", root))
 			for file in files:
 				children.append(memscript(file, "file", root))
-		
+
 		return children
-	
+
 	def __load(self):
 		script = []
-		
+
 		if self.type == "dir":
 			return script
 
-		with open(self.parent + "\\" + self.name) as script_f:
+		with open(os.path.join(self.parent, self.name)) as script_f:
 			for line in script_f:
 				line = line.replace('\n', '')
 				script.append(line)
 		return script
-	
+
 def main():
 	cwd = os.getcwd()
 	memscripts = memscript("memscripts", "dir", cwd)
 	num_of_script = len(memscripts.children)
 	chosen_script = num_of_script + 1
 
-	if chosen_script > num_of_script:
+	while chosen_script > num_of_script:
 		print("Which scipt would you like to memorise first?")
-		print(*memscripts.children)
-		script_num = int(input(f"Choose from 1~{len(memscripts.children)}: "))
+		print(*[x.name for x in memscripts.children])
+		chosen_script = int(input(f"Choose from 1~{len(memscripts.children)}: "))
+	
+	script = memscripts.children[chosen_script-1]
+	test(script)
+
+	return 0
+	
 
 def test(script: memscript):
+	if script.type == "dir":
+		for child in script.children:
+			test(child)
+	
+	results = _test(script)
+	_evaluate(results, script)
+
 	return []
 
 def _test(script: memscript):
@@ -64,20 +78,23 @@ def _test(script: memscript):
 			print(f"Incorrect Response: {input_buffer}")
 			print(f"Correct Response: {line}")
 			incorrect.append(line)
-	
+
 	return incorrect
 
-def eval(results, script: memscript):
+def _evaluate(results, script: memscript):
 	try:
 		eval_file = open("eval.txt", "x")
 	except FileExistsError:
 		eval_file = open("eval.txt", "a")
-	
-	eval_file.write("script_name")
+
+	eval_file.write(f"{script.name}")
+	eval_file.write(f" {time.asctime()}\n")
+
+	if results == []:
+		eval_file.write("No mistakes\n")
 
 	for line in results:
 		eval_file.write(line)
-	
-	eval_file.write("\n")
+		eval_file.write("\n")
 
 	eval_file.close()
