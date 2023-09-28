@@ -66,7 +66,7 @@ def _display(script: memscript):
 			__display(child)
 		return
 	
-	__display(child)
+	__display(script)
 	
 	return
 
