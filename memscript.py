@@ -1,6 +1,7 @@
 import os
 import time
 import qna
+import colours
 
 class memscript:
 	def __init__(self, name: str, type: str, parent: str):
@@ -120,19 +121,60 @@ def __test(script: memscript):
 		correct = False
 		while not correct:
 			input_buffer = input()
-			if input_buffer.lower() == "q":
+			result = _mark(input_buffer, line)
+			if result == -1:
 				print("\n")
 				return []
-			if input_buffer == line:
+			if result == 1:
 				correct = True
 				continue
-			print(f"Incorrect Response: {input_buffer}")
-			print(f"Correct Response: {line}")
 			incorrect.append(line)
 
 	print("\n")
 
 	return incorrect
+
+def _mark(input_buffer: str, line: str):
+	marks = 0
+	if input_buffer == line:
+		marks = 1
+	elif input_buffer.lower() == "q":
+		marks = -1
+	
+	if marks == 0:
+		remarks: tuple[str] = _check(input_buffer, line)
+		print(remarks[0])
+		print(remarks[1])
+
+	return marks
+
+def _check(input_buffer: str, line: str):
+	incorrect = colours.red + "Incorrect Response: " + colours.reset
+	correct = colours.cyan + "Correct Response: " + colours.reset
+	wrong = False
+	index = 0
+	
+	for idx, char in enumerate(input_buffer):
+		if char == line[idx]:
+			wrong = False
+			incorrect += colours.reset
+			correct += colours.reset
+
+		if char != line[idx]:
+			wrong = True
+			incorrect += colours.red
+			correct += colours.cyan
+		
+		incorrect += char
+		correct += line[idx]
+		index = idx
+	
+	incorrect += colours.red
+	incorrect += line[idx + 1:] if len(line) > len(input_buffer) else ""
+	correct += colours.cyan + colours.reset
+	
+	return (incorrect, correct)
+			
 
 def _evaluate(results, script: memscript):
 	try:
