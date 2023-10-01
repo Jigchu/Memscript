@@ -93,40 +93,55 @@ def _mark(input_buffer: str, line: str):
 	return marks
 
 def _check(input_buffer: str, line: str):
-	input_buffer = input_buffer.split()
-	input_list = input_buffer
-	line = line.split()
-	incorrect = colours.red + "Incorrect Response: " + colours.reset
-	correct = colours.cyan + "Correct Response: " + colours.reset
+	lines = (input_buffer.split(), line.split())
+	remarks = [f"{colours.red}Incorrect Response: {colours.reset}", f"{colours.cyan}Correct Response: {colours.reset}"]
 	right = []
+	buffer = lines[0]
+	previous_index = 0
 
-	for word in line:
-		for input_word in input_list:
-			if word == input_word:
-				right.append(input_word)
-				try:
-					input_list = input_list[input_list.index(input_word) + 1:]
-				except IndexError:
-					input_list = []
+	for word in lines[1]:
+		for idx, iword in enumerate(buffer):
+			if word == iword:
+				if idx < previous_index:
+					continue
+				previous_index = idx
+				right.append(word)
+				buffer = lines[0][idx + 1:] if idx < len(lines[0]) - 1 else []
 				break
 	
-	for word in line:
-		try:
-			right.index(word)
-		except ValueError:
-			correct += colours.cyan
-		correct += word + " "
-		correct += colours.reset
-	
-	for word in input_buffer:
-		try:
-			right.index(word)
-		except ValueError:
-			incorrect += colours.red
-		incorrect += word + " "
-		incorrect += colours.reset
+	buffer = list(lines)
+	for c_word in right:
+		i_index = buffer[0].index(c_word)
+		c_index = buffer[1].index(c_word)
+		wrong = [
+			[word for word in buffer[0][:i_index if i_index > 0 else 0]], 
+			[word for word in buffer[1][:c_index if c_index > 0 else 0]],
+		]
 
-	return (incorrect, correct)
+		remarks[0] += colours.red
+		remarks[1] += colours.cyan
+		for word in wrong[0]:
+			remarks[0] += word + " "
+		for word in wrong[1]:
+			remarks[1] += word + " "
+		remarks[0] += colours.reset + buffer[0][i_index] + " "
+		remarks[1] += colours.reset + buffer[1][c_index] + " "
+
+		buffer[0] = buffer[0][i_index + 1:] if i_index < len(buffer[0]) - 1 else []
+		buffer[1] = buffer[1][c_index + 1:] if c_index < len(buffer[1]) - 1 else []
+	
+	remarks[0] += colours.red
+	remarks[1] += colours.cyan
+
+	for word in buffer[0]:
+		remarks[0] += word + " "
+	for word in buffer[1]:
+		remarks[1] += word + " "
+
+	remarks[0] += colours.reset
+	remarks[1] += colours.reset
+
+	return tuple(remarks)
 
 def _evaluate(results, script: memscript):
 	try:
