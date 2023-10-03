@@ -34,6 +34,9 @@ def _choose(memscripts: memscript):
 	
 	chosen_script = qna.mcq("Which script would you like to choose", scripts)
 
+	if chosen_script == -1:
+		return None
+
 	chosen_script -= 1
 
 	if chosen_script == 0:
@@ -56,7 +59,7 @@ def _test(script: memscript):
 	return
 
 def __test(script: memscript):
-	incorrect = []
+	incorrect = set()
 
 	print(f"Currently testing {script.name}")
 
@@ -72,7 +75,7 @@ def __test(script: memscript):
 			if result == 1:
 				correct = True
 				continue
-			incorrect.append(line)
+			incorrect.add(line)
 
 	print("\n")
 
@@ -98,16 +101,20 @@ def _check(input_buffer: str, line: str):
 	right = []
 	buffer = lines[0]
 	previous_index = 0
+	prev_max_idx = 0
 
 	for word in lines[1]:
-		for idx, iword in enumerate(buffer):
+		idx = prev_max_idx
+		for iword in buffer:
 			if word == iword:
 				if idx < previous_index:
 					continue
 				previous_index = idx
 				right.append(word)
 				buffer = lines[0][idx + 1:] if idx < len(lines[0]) - 1 else []
+				prev_max_idx = idx
 				break
+			idx += 1
 	
 	buffer = list(lines)
 	for c_word in right:

@@ -12,7 +12,9 @@ def binary(prompt: str):
 	
 	return result
 
-def mcq(prompt: str, items: list[str]):
+def mcq(prompt: str, items: list[str], back: bool = True):
+	if back == True:
+		items.append("Back")
 	item_num = len(items)
 	answer = item_num + 1
 	print(prompt)
@@ -24,6 +26,9 @@ def mcq(prompt: str, items: list[str]):
 		except ValueError:
 			print("Invalid input")
 	
+	if back and answer == item_num:
+		answer = -1
+
 	return answer
 
 def __mcq_format(items: list[str]):

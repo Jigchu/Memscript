@@ -14,7 +14,7 @@ def main():
 	}
 
 	while True:
-		task = qna.mcq("What would you like to do?", tasks)
+		task = qna.mcq("What would you like to do?", tasks, False)
 		task = task_functions[task]
 		if task == None:
 			print("\nBye! :)")
