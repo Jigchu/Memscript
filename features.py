@@ -27,8 +27,6 @@ def memorise():
 			mem._test(script)
 			repeat = qna.binary("Do you want to repeat the script?\n")
 
-	return 0
-
 def view():
 	cwd = os.getcwd()
 	memscripts = memscript("memscripts", "dir", cwd)

@@ -29,7 +29,7 @@ class memscript:
 		if self.type == "dir":
 			return script
 
-		with open(os.path.join(self.parent, self.name)) as script_f:
+		with open(os.path.join(self.parent, self.name), encoding="UTF-8") as script_f:
 			for line in script_f:
 				line = line.replace('\n', '')
 				script.append(line)
