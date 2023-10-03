@@ -71,13 +71,14 @@ def __test(script: memscript):
 			result = _mark(input_buffer, line)
 			if result == -1:
 				print("\n")
-				return []
+				return ["Script skipped"]
 			if result == 1:
 				correct = True
 				continue
 			incorrect.add(line)
 
 	print("\n")
+	print(f"{len(script.script) - len(incorrect)}/{len(script.script)} lines correct")
 
 	return incorrect
 

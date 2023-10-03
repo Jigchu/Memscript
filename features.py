@@ -16,12 +16,12 @@ def clear_eval():
 def memorise():
 	cwd = os.getcwd()
 	memscripts = memscript("memscripts", "dir", cwd)
-	repeat = True
 	
 	while True:
 		script = mem._choose(memscripts)
 		if script == None:
 			return 0
+		repeat = True
 		
 		while repeat:
 			mem._test(script)
