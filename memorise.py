@@ -1,7 +1,5 @@
-import os
-import time
-
 from memscript import *
+import evaluate as eval
 import qna
 import colours
 
@@ -54,7 +52,7 @@ def _test(script: memscript):
 		return
 	
 	results = __test(script)
-	_evaluate(results, script)
+	eval._evaluate(results, script)
 
 	return
 
@@ -150,21 +148,3 @@ def _check(input_buffer: str, line: str):
 	remarks[1] += colours.reset
 
 	return tuple(remarks)
-
-def _evaluate(results, script: memscript):
-	try:
-		eval_file = open("eval.txt", "x")
-	except FileExistsError:
-		eval_file = open("eval.txt", "a")
-
-	eval_file.write(f"{script.name} {time.asctime()}\n")
-
-	if results == []:
-		eval_file.write("No mistakes\n")
-
-	for line in results:
-		eval_file.write(line + "\n")
-	
-	eval_file.write("\n")
-
-	eval_file.close()
