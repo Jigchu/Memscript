@@ -1,9 +1,10 @@
 import os
 
-from memscript import *
-import qna
-import memorise as mem
-import evaluate as eval
+from memscript.memscript import *
+import util.qna as qna
+import util.colours as colours
+import memscript.memorise as mem
+import memo.evaluate as eval
 
 def clear_eval():
 	try:
@@ -40,13 +41,14 @@ def view():
 		mem._display(script)
 		repeat = qna.binary("Would you like to look at another script?\n")
 
-def eval_view():
-	try:
-		eval_f = open("eval.txt", "r")
-	except FileNotFoundError:
-		print("eval.txt does not exist")
-		return 0
+def new_script():
+	while True:
+		name = input("What do you want to name the script?")
+		file_path = os.path.join(os.getcwd(), "memscript", name)
+		try:
+			script = open(file_path, "x")
+		except FileExistsError:
+			print(f"{colours.red}File already exists!")
 	
-	eval.__eval_display()
 
-	return 0
+# def eval_view():

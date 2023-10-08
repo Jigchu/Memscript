@@ -1,4 +1,4 @@
-from memscript import *
+from memscript.memscript import *
 import time
 
 def _evaluate(results, script: memscript):
@@ -18,16 +18,3 @@ def _evaluate(results, script: memscript):
 	eval_file.write("\n")
 
 	eval_file.close()
-
-def __eval_display():
-	entries: list[list[str]] = __format_eval__
-	
-
-def __format_eval__():
-	try:
-		eval_f = open("eval.txt", "r")
-	except FileNotFoundError:
-		print("eval.txt does not exist")
-		return -1
-	
-	

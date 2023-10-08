@@ -1,7 +1,7 @@
-from memscript import *
-import evaluate as eval
-import qna
-import colours
+from memscript.memscript import *
+import memo.evaluate as eval
+import util.qna as qna
+import util.colours as colours
 
 def _display(script: memscript):
 	if script.type == "dir":
@@ -148,3 +148,6 @@ def _check(input_buffer: str, line: str):
 	remarks[1] += colours.reset
 
 	return tuple(remarks)
+
+def __write_script(fname: str):
+	script = open(fname)
