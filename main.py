@@ -1,16 +1,15 @@
-import memscript
 import qna
-import memorise
 import features
 
 def main():
 	# Main menu
-	tasks = ["Memorise", "Look at Text", "Clear eval.txt", "Exit"]
+	tasks = ["Memorise", "Look at Text", "Clear eval.txt", "View eval.txt", "Exit"]
 	task_functions = {
 		1: features.memorise,
 		2: features.view,
 		3: features.clear_eval,
-		4: None
+		4: features.eval_view,
+		5: None,
 	}
 
 	while True:

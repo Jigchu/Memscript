@@ -3,6 +3,7 @@ import os
 from memscript import *
 import qna
 import memorise as mem
+import evaluate as eval
 
 def clear_eval():
 	try:
@@ -38,3 +39,14 @@ def view():
 			break
 		mem._display(script)
 		repeat = qna.binary("Would you like to look at another script?\n")
+
+def eval_view():
+	try:
+		eval_f = open("eval.txt", "r")
+	except FileNotFoundError:
+		print("eval.txt does not exist")
+		return 0
+	
+	eval.__eval_display()
+
+	return 0
