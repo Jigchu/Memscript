@@ -1,5 +1,6 @@
 from src.memscript.memscript import *
 import src.util.colours as colours
+import src.evaluate as eval
 
 def _test(script: memscript):
 	if script.type == "dir":
