@@ -1,10 +1,12 @@
 import os
 
-from memscript.memscript import *
-import util.qna as qna
-import util.colours as colours
-import memscript.memorise as mem
-import memo.evaluate as eval
+from src.memscript.memscript import *
+import src.memscript.general as gen
+import src.memscript.test as test
+import src.memscript.view as view
+import src.util.qna as qna
+import src.util.colours as colours
+import src.evaluate as eval
 
 def clear_eval():
 	try:
@@ -20,13 +22,13 @@ def memorise():
 	memscripts = memscript("memscripts", "dir", cwd)
 	
 	while True:
-		script = mem._choose(memscripts)
+		script = gen._choose(memscripts)
 		if script == None:
 			return 0
 		repeat = True
 		
 		while repeat:
-			mem._test(script)
+			test._test(script)
 			repeat = qna.binary("Do you want to repeat the script?\n")
 
 def view():
@@ -35,10 +37,10 @@ def view():
 	repeat = True
 	
 	while repeat:
-		script = mem._choose(memscripts)
+		script = gen._choose(memscripts)
 		if script == None:
 			break
-		mem._display(script)
+		view._display(script)
 		repeat = qna.binary("Would you like to look at another script?\n")
 
 def new_script():
@@ -51,4 +53,5 @@ def new_script():
 			print(f"{colours.red}File already exists!")
 	
 
-# def eval_view():
+def eval_view():
+	return

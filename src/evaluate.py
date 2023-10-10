@@ -1,4 +1,4 @@
-from memscript.memscript import *
+from src.memscript.memscript import *
 import time
 
 def _evaluate(results, script: memscript):

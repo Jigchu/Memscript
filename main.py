@@ -1,5 +1,5 @@
-import memo.util.qna as qna
-import memo.features as features
+import src.util.qna as qna
+import src.features as features
 
 def main():
 	# Main menu
