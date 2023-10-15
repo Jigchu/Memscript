@@ -1,21 +1,25 @@
-from src.memscript.memscript import *
-import src.util.colours as colours
-import src.evaluate as eval
+from memscript.memscript import *
+import util.colours as colours
+import evaluate as eval
 
-def _test(script: memscript):
+def test(script: memscript):
 	if script.type == "dir":
 		print(f"Currently memorising set of scripts under {script.name}")
 		for child in script.children:
-			_test(child)
+			test(child)
 		return
 	
 	results = __test(script)
-	eval._evaluate(results, script)
+	
+	if "q" in results:
+		return
 
+	eval.evaluate(results, script)
 	return
 
 def __test(script: memscript):
 	incorrect = set()
+	skipped = 0
 
 	print(f"Currently testing {script.name}")
 
@@ -24,10 +28,16 @@ def __test(script: memscript):
 		while not correct:
 			input_buffer = input().strip()
 
-			result = _mark(input_buffer, line)
+			result = __mark(input_buffer, line)
 			if result == -1:
 				print("\n")
+				return ["q"]
+			if result == -2:
+				print("\n")
 				return ["Script skipped"]
+			if result == -3:
+				correct = True
+				skipped += 1
 			if result == 1:
 				correct = True
 				continue
@@ -35,25 +45,34 @@ def __test(script: memscript):
 
 	print("\n")
 	print(f"{len(script.script) - len(incorrect)}/{len(script.script)} lines correct")
+	print(f"{skipped}/{len(script.script)} lines skipped")
 
 	return incorrect
 
-def _mark(input_buffer: str, line: str):
+def __mark(input_buffer: str, line: str):
 	marks = 0
+	quit = input_buffer.lower() == "q"
+	skip = input_buffer.lower() == "s"
+	continued = input_buffer.lower() == "c"
+
 	if input_buffer == line:
 		marks = 1
-	elif input_buffer.lower() == "q":
+	elif quit:
 		marks = -1
+	elif skip:
+		marks = -2
+	elif continued:
+		marks = -3
 	
 	if marks == 0:
-		remarks: tuple[str] = _check(input_buffer, line)
+		remarks: tuple[str] = __check(input_buffer, line)
 		print(remarks[0])
 		print(remarks[1])
 
 	return marks
 
 
-def _check(input_buffer: str, line: str):
+def __check(input_buffer: str, line: str):
 	lines = (input_buffer.split(), line.split())
 	remarks = [f"{colours.red}Incorrect Response: {colours.reset}", f"{colours.cyan}Correct Response: {colours.reset}"]
 	right = __right(lines)
