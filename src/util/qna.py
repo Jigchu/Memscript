@@ -13,20 +13,21 @@ def binary(prompt: str):
 	return result
 
 def mcq(prompt: str, items: list[str], back: bool = True):
-	if back == True:
-		items.append("Back")
+	if back:
+		items.insert(0, "Back")
 	item_num = len(items)
+	item_num -= 1 if not back else 0
 	answer = item_num + 1
 	print(prompt)
 	print(__mcq_format(items))
 
 	while answer > item_num:
 		try:
-			answer = int(input(f"Choose from 1~{item_num}: "))
+			answer = int(input(f"Choose from 0~{item_num}: "))
 		except ValueError:
 			print("Invalid input")
 	
-	if back and answer == item_num:
+	if back and answer == 0:
 		answer = -1
 
 	return answer
@@ -35,6 +36,6 @@ def __mcq_format(items: list[str]):
 	fstring = ""
 	
 	for index, item in enumerate(items):
-		fstring += f"{index + 1}: {item}    "
+		fstring += f"{index}: {item}    "
 	
 	return fstring
