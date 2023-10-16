@@ -6,7 +6,7 @@ class memscript:
 		self.name = name
 		self.type = type if type in ["dir", "file"] else "file"
 		self.parent = parent
-		self.children = []
+		self.children: list[memscript] = []
 		if self.type == "dir":
 			self.children = self.__get_children()
 		self.script = self.__load()
@@ -16,6 +16,18 @@ class memscript:
 		path = cd.find("memscripts", "dir", "memo")
 		parent, name = os.path.split(path)
 		return memscript(name, "dir", parent)
+
+	def update(self):
+		for child in self.children:
+			dir = child.type == "dir"
+			if dir:
+				child.update()
+				continue
+			path = os.path.join(child.parent, child.name)
+			try:
+				open(path)
+			except FileNotFoundError:
+				self.children.remove(child)
 
 	def __get_children(self):
 		start_dir = os.path.join(self.parent, self.name)
