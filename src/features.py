@@ -1,3 +1,4 @@
+import shutil
 import os
 
 from memscript.memscript import *
@@ -16,7 +17,7 @@ def clear_eval():
 		return 0
 	eval_f.seek(0)
 	eval_f.truncate(0)
-	return 0
+	return 
 
 def memorise():
 	memscripts = memscript.init_root()
@@ -24,7 +25,7 @@ def memorise():
 	while True:
 		script = gen.choose(memscripts)
 		if script == None:
-			return 0
+			return 
 		repeat = True
 		
 		while repeat:
@@ -53,11 +54,27 @@ def new_script():
 
 def edit_script():
 	edit = True
-
 	while edit:
-		
 		edit = qna.binary("Do you want to edit another script or directory?\n")
 	
+	return
+
+def del_script():
+	memscripts = memscript.init_root()
+	delete = True
+	while delete:
+		script = gen.choose(memscripts)
+		if script == None:
+			break
+		path = os.path.join(script.parent, script.name)
+		comfirm = qna.binary(f"{colours.red}Are you sure you want to remove {script.name} permanently?{colours.reset}\n")
+		if not comfirm:
+			break
+		dir = script.type == "dir"
+		shutil.rmtree(path) if dir else os.remove(path)
+		delete = qna.binary("Do you want to delete another script or directory?\n")
+		if delete:
+			memscripts.update()
 	return
 
 def eval_view():

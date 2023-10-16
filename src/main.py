@@ -1,9 +1,10 @@
 import util.qna as qna
+import util.colours as colours
 import features as features
 
 def main():
 	# Main menu
-	tasks = ["Exit", "Memorise", "Look at Text", "Add Text", "Clear eval.txt", "View eval.txt"]
+	tasks = ["Exit", "Memorise", "Look at Text", "Add Text", "Edit Text", "Clear eval.txt", "View eval.txt", f"{colours.red}Delete Text{colours.reset}"]
 	task_functions = {
 		0: None,
 		1: features.memorise,
@@ -12,6 +13,7 @@ def main():
 		4: features.edit_script,
 		5: features.clear_eval,
 		6: features.eval_view,
+		7: features.del_script,
 	}
 
 	while True:
