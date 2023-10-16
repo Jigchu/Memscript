@@ -1,14 +1,30 @@
 import os
+
+from memscript.memscript import *
+import memscript.general as gen
 import util.cd as cd
 import util.qna as qna
 import util.colours as colours
 
 def add_script(root: str):
-	path = name(root)
-	write(path)
+	root = __location(root)
+	path = __name(root)
+	__write(path)
 
-def name(root: str):
-	dir = qna.binary("Would you like to create a new directory?\n")
+def __location(root: str):
+	memdirs = __memdirs()
+	script = gen.choose(memdirs)
+
+	root = os.path.join(script.parent, script.name)
+
+	return root
+
+def __memdirs():
+
+	return
+
+def __name(root: str):
+	dir = qna.binary(f"Would you like to create a new directory in {root}?\n")
 	prompt = "What would you like to name the new script?\n" if not dir else "What would you like to name the new directory?\n"
 	name = input(prompt)
 	name += ".txt" if not dir else ""
@@ -16,7 +32,7 @@ def name(root: str):
 
 	return path
 
-def write(path: str):
+def __write(path: str):
 	if ".txt" not in path:
 		try:
 			os.mkdir(path)
@@ -29,7 +45,6 @@ def write(path: str):
 		return
 		
 	try:
-		print(path)
 		script_file = open(path, "x")
 	except FileExistsError:
 		print(f"{colours.red}File already exists! Try editing the file instead.{colours.reset}")
