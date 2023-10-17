@@ -12,16 +12,15 @@ def add_script(root: str):
 	__write(path)
 
 def __location(root: str):
+	
 	memdirs = __memdirs()
-	script = gen.choose(memdirs)
-
-	root = os.path.join(script.parent, script.name)
 
 	return root
 
 def __memdirs():
+	
 
-	return
+	return memdirs
 
 def __name(root: str):
 	dir = qna.binary(f"Would you like to create a new directory in {root}?\n")

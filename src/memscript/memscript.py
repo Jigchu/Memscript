@@ -29,6 +29,9 @@ class memscript:
 			except FileNotFoundError:
 				self.children.remove(child)
 
+	def filter(self, func: function):
+		return
+
 	def __get_children(self):
 		start_dir = os.path.join(self.parent, self.name)
 		traversal = os.walk(start_dir)
