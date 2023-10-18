@@ -8,19 +8,35 @@ import util.colours as colours
 
 def add_script(root: str):
 	root = __location(root)
+	if root == "":
+		return
 	path = __name(root)
 	__write(path)
 
 def __location(root: str):
+	memdirs = memscript.init_root()
 	
-	memdirs = __memdirs()
+	def dir(child: memscript):
+		return child.type == "dir"
+
+	memdirs.filter(dir)
+	dirs = memdirs.get_children()
+	dirs.insert(0, memdirs)
+	options = [d.name for d in dirs]
+	for idx, option in enumerate(options):
+		if option == root and option != "Memscripts":
+			options[idx] = option + " (Recently made)"
+
+	result = qna.mcq("Where would you like to create your new script?", options)
+	
+	back = result == -1
+	if back:
+		return ""
+	
+	script = dirs[result - 1]
+	root = script.name
 
 	return root
-
-def __memdirs():
-	
-
-	return memdirs
 
 def __name(root: str):
 	dir = qna.binary(f"Would you like to create a new directory in {root}?\n")

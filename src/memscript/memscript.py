@@ -13,9 +13,22 @@ class memscript:
 
 	@classmethod
 	def init_root(memscript):
-		path = cd.find("memscripts", "dir", "memo")
+		path = cd.find("Memscripts", "dir", "memo")
 		parent, name = os.path.split(path)
 		return memscript(name, "dir", parent)
+
+	def get_children(self):
+		children: list[memscript] = []
+		if self.type != "dir":
+			return children
+		
+		children.extend(self.children)
+		for child in self.children:
+			dir = child.type == "dir"
+			if dir:
+				children.extend(child.get_children())
+		
+		return children
 
 	def update(self):
 		for child in self.children:
@@ -28,8 +41,18 @@ class memscript:
 				open(path)
 			except FileNotFoundError:
 				self.children.remove(child)
+		
+		return
 
-	def filter(self, func: function):
+	def filter(self, filter: callable):
+		for idx, child in enumerate(self.children):
+			dir = child.type == "dir"
+			if dir:
+				child.filter(filter)
+				
+			self.children = [child for child in self.children if filter(child)]
+			
+
 		return
 
 	def __get_children(self):
@@ -54,4 +77,5 @@ class memscript:
 			for line in script_f:
 				line = line.replace('\n', '')
 				script.append(line)
+		
 		return script

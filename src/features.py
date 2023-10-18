@@ -47,7 +47,7 @@ def new_script():
 	create = True
 
 	while create:
-		new.add_script("memscripts")
+		new.add_script("Memscripts")
 		create = qna.binary("Do you want to create another script or directory?\n")
 	
 	return
