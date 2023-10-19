@@ -16,7 +16,7 @@ def mcq(prompt: str, items: list[str], back: bool = True):
 	if back:
 		items.insert(0, "Back")
 	item_num = len(items)
-	item_num -= 1 if not back else 0
+	item_num -= 1
 	answer = item_num + 1
 	print(prompt)
 	print(__mcq_format(items))

@@ -16,8 +16,7 @@ def add_script(root: str):
 def __location(root: str):
 	memdirs = memscript.init_root()
 	
-	def dir(child: memscript):
-		return child.type == "dir"
+	dir: callable[memscript, bool] = lambda child: child.type == "dir"
 
 	memdirs.filter(dir)
 	dirs = memdirs.get_children()
