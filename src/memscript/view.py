@@ -1,6 +1,6 @@
 from memscript.memscript import *
 
-def display(script: memscript):
+def Display(script: memscript):
 	if script.type == "dir":
 		for child in script.children:
 			__display(child)

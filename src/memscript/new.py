@@ -1,12 +1,11 @@
 import os
 
 from memscript.memscript import *
-import memscript.general as gen
 import util.cd as cd
 import util.qna as qna
 import util.colours as colours
 
-def add_script(root: str):
+def Add(root: str):
 	root = __location(root)
 	if root == "":
 		return
@@ -55,7 +54,7 @@ def __write(path: str):
 			return
 		print(f"{colours.green}Directory successfully created!{colours.reset}")
 		prev_dir, curr_dir = os.path.split(path)
-		add_script(curr_dir)
+		Add(curr_dir)
 		return
 		
 	try:

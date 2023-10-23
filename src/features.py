@@ -3,9 +3,9 @@ import os
 
 from memscript.memscript import *
 import memscript.general as gen
-import memscript.test as test
-import memscript.view as view
-import memscript.new as new
+from memscript.test import Test
+from memscript.view import Display
+from memscript.new import Add
 import util.qna as qna
 import util.colours as colours
 import evaluate as eval
@@ -29,7 +29,7 @@ def memorise():
 		repeat = True
 		
 		while repeat:
-			test.test(script)
+			Test(script)
 			repeat = qna.binary("Do you want to repeat the script?\n")
 
 def view():
@@ -40,20 +40,21 @@ def view():
 		script = gen.choose(memscripts)
 		if script == None:
 			break
-		view.display(script)
+		Display(script)
 		repeat = qna.binary("Would you like to look at another script?\n")
 
 def new_script():
 	create = True
 
 	while create:
-		new.add_script("Memscripts")
+		Add("Memscripts")
 		create = qna.binary("Do you want to create another script or directory?\n")
 	
 	return
 
 def edit_script():
 	edit = True
+
 	while edit:
 		edit = qna.binary("Do you want to edit another script or directory?\n")
 	

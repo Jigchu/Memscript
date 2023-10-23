@@ -5,15 +5,18 @@ import evaluate as eval
 import util.qna as qna
 import util.colours as colours
 
-def choose(memscripts: memscript):
-	scripts = ["All"]
-	num_script = len(memscripts.children) + 1
-	chosen_script = num_script + 1
+def choose(memscripts: memscript, all: bool = True):
+	scripts = []
+	if all:
+		scripts.append("All")
 	script = None
 
 	for child in memscripts.children:
 		scripts.append(child.name)
 	
+	if not all:
+		scripts.insert(0, memscripts.name)
+
 	chosen_script = qna.mcq("Which script would you like to choose", scripts)
 
 	if chosen_script == -1:

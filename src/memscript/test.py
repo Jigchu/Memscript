@@ -2,11 +2,11 @@ from memscript.memscript import *
 import util.colours as colours
 import evaluate as eval
 
-def test(script: memscript):
+def Test(script: memscript):
 	if script.type == "dir":
 		print(f"Currently memorising set of scripts under {script.name}")
 		for child in script.children:
-			test(child)
+			Test(child)
 		return
 	
 	results = __test(script)
