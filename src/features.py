@@ -6,6 +6,7 @@ import memscript.general as gen
 from memscript.test import Test
 from memscript.view import Display
 from memscript.new import Add
+from memscript.edit import Edit
 import util.qna as qna
 import util.colours as colours
 import evaluate as eval
@@ -56,6 +57,7 @@ def edit_script():
 	edit = True
 
 	while edit:
+		Edit()
 		edit = qna.binary("Do you want to edit another script or directory?\n")
 	
 	return
