@@ -26,7 +26,8 @@ def main():
 	
 	return 0
 
-try:
-	main()
-except KeyboardInterrupt:
-	print("\nBye! :)")
+if __name__ == "__main__":
+	try:
+		main()
+	except KeyboardInterrupt:
+		print("\nBye! :)")
