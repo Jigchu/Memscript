@@ -14,7 +14,7 @@ def Edit():
 	__edit(script)
 
 def __location():
-	memscripts = memscript.init_root()
+	memscripts = Memscript.init_root()
 	files = memscripts.get_children()
 	options = [file.name for file in files if file.type == "file"]
 
@@ -28,7 +28,7 @@ def __location():
 	
 	return script
 
-def __edit(memscript: memscript):
+def __edit(memscript: Memscript):
 	script = memscript.script
 	finished = False
 	new_script = []

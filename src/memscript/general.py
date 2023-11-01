@@ -5,7 +5,7 @@ import evaluate as eval
 import util.qna as qna
 import util.colours as colours
 
-def choose(memscripts: memscript, all: bool = True):
+def choose(memscripts: Memscript, all: bool = True):
 	scripts = []
 	if all:
 		scripts.append("All")
@@ -27,6 +27,6 @@ def choose(memscripts: memscript, all: bool = True):
 	if chosen_script == 0:
 		script = memscripts
 	else:
-		script: memscript = memscripts.children[chosen_script - 1]
+		script: Memscript = memscripts.children[chosen_script - 1]
 
 	return script

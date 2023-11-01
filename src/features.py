@@ -21,7 +21,7 @@ def clear_eval():
 	return 
 
 def memorise():
-	memscripts = memscript.init_root()
+	memscripts = Memscript.init_root()
 
 	while True:
 		script = gen.choose(memscripts)
@@ -34,7 +34,7 @@ def memorise():
 			repeat = qna.binary("Do you want to repeat the script?\n")
 
 def view():
-	memscripts = memscript.init_root()
+	memscripts = Memscript.init_root()
 	repeat = True
 	
 	while repeat:
@@ -63,7 +63,7 @@ def edit_script():
 	return
 
 def del_script():
-	memscripts = memscript.init_root()
+	memscripts = Memscript.init_root()
 	delete = True
 	while delete:
 		script = gen.choose(memscripts)

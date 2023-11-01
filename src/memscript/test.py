@@ -2,7 +2,7 @@ from memscript.memscript import *
 import util.colours as colours
 import evaluate as eval
 
-def Test(script: memscript):
+def Test(script: Memscript):
 	if script.type == "dir":
 		print(f"Currently memorising set of scripts under {script.name}")
 		for child in script.children:
@@ -17,7 +17,7 @@ def Test(script: memscript):
 	eval.evaluate(results, script)
 	return
 
-def __test(script: memscript):
+def __test(script: Memscript):
 	incorrect = set()
 	skipped = 0
 

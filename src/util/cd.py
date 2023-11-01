@@ -20,8 +20,8 @@ def find(search: str, type: str, root: str):
 	path = ""
 
 	for r, dirs, files in walk_object:
-		if type == "dir":
-			if search in dirs if dir == 1 else files:
+		for item in dirs if dir == 1 else files:
+			if item == search:
 				path = os.path.join(r, search)
 	return path
 
@@ -30,7 +30,9 @@ def __root(root: str):
 	prev_dir = cwd
 	curr_dir = None
 	
-	while curr_dir != root or curr_dir == "":
+	while True:
 		prev_dir, curr_dir = os.path.split(prev_dir)
-	
+		if curr_dir == root or curr_dir == "":
+			break
+
 	return os.path.join(prev_dir, curr_dir)

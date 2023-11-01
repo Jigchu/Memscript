@@ -1,24 +1,24 @@
 import os
 import util.cd as cd
 
-class memscript:
+class Memscript:
 	def __init__(self, name: str, type: str, parent: str):
 		self.name = name
 		self.type = type if type in ["dir", "file"] else "file"
 		self.parent = parent
-		self.children: list[memscript] = []
+		self.children: list[Memscript] = []
 		if self.type == "dir":
 			self.children = self.__get_children()
 		self.script = self.__load()
 
 	@classmethod
-	def init_root(memscript):
+	def init_root(Memscript):
 		path = cd.find("Memscripts", "dir", "memo")
 		parent, name = os.path.split(path)
-		return memscript(name, "dir", parent)
+		return Memscript(name, "dir", parent)
 
 	def get_children(self):
-		children: list[memscript] = []
+		children: list[Memscript] = []
 		if self.type != "dir":
 			return children
 		
@@ -62,9 +62,9 @@ class memscript:
 
 		for root, dirs, files in traversal:
 			for dir in dirs:
-				children.append(memscript(dir, "dir", root))
+				children.append(Memscript(dir, "dir", root))
 			for file in files:
-				children.append(memscript(file, "file", root))
+				children.append(Memscript(file, "file", root))
 
 		return children
 

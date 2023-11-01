@@ -13,9 +13,9 @@ def Add(root: str):
 	__write(path)
 
 def __location(root: str):
-	memdirs = memscript.init_root()
+	memdirs = Memscript.init_root()
 	
-	dir: callable[memscript, bool] = lambda child: child.type == "dir"
+	dir: callable[Memscript, bool] = lambda child: child.type == "dir"
 
 	memdirs.filter(dir)
 	dirs = memdirs.get_children()

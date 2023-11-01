@@ -1,6 +1,6 @@
 from memscript.memscript import *
 
-def Display(script: memscript):
+def Display(script: Memscript):
 	if script.type == "dir":
 		for child in script.children:
 			__display(child)
@@ -10,7 +10,7 @@ def Display(script: memscript):
 	
 	return
 
-def __display(script: memscript):
+def __display(script: Memscript):
 	print(f"Currently viewing {script.name}")
 	for line in script.script:
 		input(line)

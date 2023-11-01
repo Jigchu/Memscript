@@ -1,7 +1,7 @@
 from memscript.memscript import *
 import time
 
-def evaluate(results: list[str], script: memscript):
+def evaluate(results: list[str], script: Memscript):
 	try:
 		eval_file = open("eval.txt", "x")
 	except FileExistsError:
